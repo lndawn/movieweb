@@ -1,0 +1,23 @@
+{
+  "name": "movieshow",
+  "version": "1.0.0",
+  "description": "\"the sample web station\"",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "jade": "^1.11.0",
+    "moment": "^2.13.0",
+    "mongoose": "^4.4.14"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\"\""
+  },
+  "author": "lndawn",
+  "license": "ISC"
+}
