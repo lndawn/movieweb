@@ -2,7 +2,7 @@
   "name": "movieshow",
   "version": "1.0.0",
   "description": "\"the sample web station\"",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {},
   "devDependencies": {
     "body-parser": "^1.15.0",

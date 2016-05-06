@@ -1,0 +1,22 @@
+{
+  "name": "movieshow",
+  "description": "the sample web station",
+  "main": "app.js",
+  "authors": [
+    "lndawn"
+  ],
+  "license": "ISC",
+  "homepage": "yes",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
