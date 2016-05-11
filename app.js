@@ -3,9 +3,9 @@ var express=require('express')
 var jade=require('jade')
 var _=require('underscore')
 var mongoose=require('mongoose')
-var connect=require('connect')
-var session=require('express-session')
-var mongoStore=require('connect-mongo')(session)
+//var connect=require('connect')
+//var session=require('express-session')
+var mongoStore=require('connect-mongo')(express)
 var bodyParser=require('body-parser')
 var path=require('path')
 var port=process.env.PORT || 3000
@@ -19,7 +19,8 @@ app.set('views','./app/views/pages') //设置实例和根目录
 app.set('view engine','jade') //设置模板引擎
 app.use(bodyParser.urlencoded({extended:true}))//表单数据的格式化
 app.use(bodyParser.json())
-app.use(session({
+app.use(express.cookieParser())
+app.use(express.session({
 	secret:'imooc',
 	store: new mongoStore({
 		url:dbUrl,

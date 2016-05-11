@@ -1,15 +1,21 @@
 var _=require('underscore')
 var mongoose=require('mongoose')
 var Movie=require('../models/movie')
+var Comment=require('../models/comment')
 exports.detail=function(req,res){ //request,response
 	var id=req.params.id
 	Movie.findById(id,function(err,movie){
-		if(err){
-			console.log(err)
-		}
-		res.render('detail',{
-			title:"imooc 详情页",
-			movie:movie
+		//callback
+		Comment
+			.find({movie:id})
+			.populate('from','name')
+			.populate('reply.from reply.to','name')
+			.exec(function(err,comments){
+				res.render('detail',{
+					title:"imooc 详情页",
+					movie:movie,
+					comments:comments
+			})
 		})
 	})
 }
@@ -54,8 +60,6 @@ exports.del=function(req,res){
 	}
 }
 exports.save=function(req,res){
-	console.log(req.body)
-	console.log(req.body.movie)
 	var id=req.body.movie._id
 	var movieObj=req.body.movie
 	var _movie
