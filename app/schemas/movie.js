@@ -1,5 +1,7 @@
 var mongoose=require('mongoose')
-var MovieSchema=new mongoose.Schema({
+var Schema=mongoose.Schema
+var ObjectId=Schema.Types.ObjectId
+var MovieSchema=new Schema({
 	doctor:String,
 	title:String,
 	language:String,
@@ -8,6 +10,7 @@ var MovieSchema=new mongoose.Schema({
 	flash:String,
 	poster:String,
 	year:String,//视频中是number
+	category:{type:ObjectId,ref:'Category'},//既可以存储成string类型也可以存储成Object类型，在此推荐使用Object类型,双向映射
 	meta:{
 		createAt:{
 			type:Date,

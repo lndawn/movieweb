@@ -2,6 +2,7 @@ var _=require('underscore')
 var mongoose=require('mongoose')
 var Movie=require('../models/movie')
 var Comment=require('../models/comment')
+var Category=require('../models/category')
 exports.detail=function(req,res){ //request,response
 	var id=req.params.id
 	Movie.findById(id,function(err,movie){
@@ -20,27 +21,24 @@ exports.detail=function(req,res){ //request,response
 	})
 }
 exports.new=function(req,res){ //request,response
-	res.render('admin',{ //url和样式模板
-		title:'imooc 后台录入页',
-		movie:{
-			doctor:'',
-			country:'',
-			title:'',
-			year:'',
-			poster:'',
-			language:'',
-			flash:'',
-			summary:''
-		}
-	}) 
+	Category.find({},function(err,categories){
+		res.render('admin',{ //url和样式模板
+			title:'imooc 后台录入页',
+			categories:categories,
+			movie:{}
+		}) 
+	})
 }
 exports.update=function(req,res){
 	var id=req.params.id
 	if(id){
 		Movie.findById(id,function(err,movie){
-			res.render('admin',{
-				title:'imooc 后台更新页',
-				movie:movie
+			Category.find({},function(err,categories){
+				res.render('admin',{
+					title:'imooc 后台更新页',
+					movie:movie,
+					categories:categories
+				})
 			})
 		})
 	}
@@ -63,7 +61,7 @@ exports.save=function(req,res){
 	var id=req.body.movie._id
 	var movieObj=req.body.movie
 	var _movie
-	if(id !== undefined){
+	if(id){
 		Movie.findById(id,function(err,movie){
 			if(err){
 				console.log(err)
@@ -77,21 +75,20 @@ exports.save=function(req,res){
 			})
 		})
 	}else{
-		_movie=new Movie({
-			doctor:movieObj.doctor,
-			title:movieObj.title,
-			language:movieObj.language,
-			country:movieObj.country,
-			year:movieObj.year,
-			poster:movieObj.poster,
-			flash:movieObj.flash,
-			summary:movieObj.summary
-		})
+		_movie=new Movie(movieObj)
+		var categoryId=_movie.category
+		console.log(movieObj)
 		_movie.save(function(err,movie){
 			if(err){
 				console.log(err)
 			}
-			res.redirect('/movie/'+movie._id)
+			Category.findById(categoryId,function(err,category){
+				console.log(_movie)
+				category.movies.push(movie._id)
+				category.save(function(err,category){
+					res.redirect('/movie/'+movie._id)
+				})
+			})
 		})
 	}
 }
