@@ -3,10 +3,12 @@ var express=require('express')
 var jade=require('jade')
 var _=require('underscore')
 var mongoose=require('mongoose')
-//var connect=require('connect')
-//var session=require('express-session')
-var mongoStore=require('connect-mongo')(express)
 var bodyParser=require('body-parser')
+var cookieParser=require('cookie-parser')
+var session=require('express-session')
+var mongoStore=require('connect-mongo')(session)
+var logger=require('morgan')
+var static=require('serve-static')
 var path=require('path')
 var fs=require('fs')
 var port=process.env.PORT || 3000
@@ -39,22 +41,24 @@ app.set('views','./app/views/pages') //设置实例和根目录
 app.set('view engine','jade') //设置模板引擎
 app.use(bodyParser.urlencoded({extended:true}))//表单数据的格式化
 app.use(bodyParser.json())
-app.use(express.cookieParser())
-app.use(express.multipart())
-app.use(express.session({
+app.use(cookieParser())
+app.use(session({
 	secret:'imooc',
+  resave:false,
+  saveUninitialized:true,
 	store: new mongoStore({
 		url:dbUrl,
 		collection:'sessions'
 	})
 }))
-if ('development' === app.get('env')) {
+var env=express.env.NODE_ENV || 'development'
+if ('development' === env) {
   app.set('showStackError', true)
- // app.use(express.logger(':method :url :status'))
+  app.use(logger(':method :url :status'))
   app.locals.pretty = true
   //mongoose.set('debug', true)
 }
-app.use(express.static(path.join(__dirname,'public')))
+app.use(static(path.join(__dirname,'public')))
 require('./config/routes')(app)
 app.listen(port)
 console.log('imooc started on port' + port)
