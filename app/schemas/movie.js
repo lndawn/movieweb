@@ -10,6 +10,7 @@ var MovieSchema=new Schema({
 	flash:String,
 	poster:String,
 	year:String,//视频中是number
+	pv:{type:Number,default:0},
 	category:{type:ObjectId,ref:'Category'},//既可以存储成string类型也可以存储成Object类型，在此推荐使用Object类型,双向映射
 	meta:{
 		createAt:{

@@ -20,6 +20,7 @@ app.set('view engine','jade') //设置模板引擎
 app.use(bodyParser.urlencoded({extended:true}))//表单数据的格式化
 app.use(bodyParser.json())
 app.use(express.cookieParser())
+app.use(express.multipart())
 app.use(express.session({
 	secret:'imooc',
 	store: new mongoStore({
