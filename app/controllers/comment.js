@@ -21,7 +21,7 @@ exports.save=function(req,res){
 		})
 	}
 	else{
-		var comment=new Comment(_comment)
+		comment=new Comment(_comment)
 		comment.save(function(err,movie){
 				if(err){
 					console.log(err)

@@ -8,12 +8,32 @@ var mongoose=require('mongoose')
 var mongoStore=require('connect-mongo')(express)
 var bodyParser=require('body-parser')
 var path=require('path')
+var fs=require('fs')
 var port=process.env.PORT || 3000
 var app=express()
 var dbUrl='mongodb://localhost/moviedb'
 var db=mongoose.connect(dbUrl)
 db.connection.on('open',function(){console.log('数据库连接成功')})
 db.connection.on('error',function(err){console.log('数据库连接失败')})
+var models_path=__dirname+'/app/models'
+//通过mongoose.model获取模型
+var walk=function(path){
+  fs
+    .readdirSync(path)
+    .forEach(function(file){
+      var newPath=path +'/'+ file
+      var stat=fs.statSync(newPath)
+      if(stat.isFile()){
+        if(/(.*)\.(js|coffee)/.test(file)){
+          require(newPath)
+        }
+      }
+      else if(stat.isDirectory()){
+        walk(newPath)
+      }
+    })
+}
+walk(models_path)
 app.locals.moment=require('moment')
 app.set('views','./app/views/pages') //设置实例和根目录
 app.set('view engine','jade') //设置模板引擎

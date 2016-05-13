@@ -20,7 +20,7 @@ exports.detail=function(req,res){ //request,response
 			.populate('reply.from reply.to','name')
 			.exec(function(err,comments){
 				res.render('detail',{
-					title:"imooc 详情页",
+					title:'imooc 详情页',
 					movie:movie,
 					comments:comments
 			})
@@ -67,8 +67,7 @@ exports.del=function(req,res){
 exports.savePoster=function(req,res,next){
 	var posterData=req.files.uploadPoster
 	var filePath=posterData.path
-	var originalFilename=posterData,originalFilename
-	console.log(req.files)
+	var originalFilename=posterData.originalFilename
 	if(originalFilename){
 		fs.readFile(filePath,function(err,data){
 			var timestamp=Date.now()
