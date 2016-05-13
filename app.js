@@ -51,7 +51,7 @@ app.use(session({
 		collection:'sessions'
 	})
 }))
-var env=express.env.NODE_ENV || 'development'
+var env=process.env.NODE_ENV || 'development'
 if ('development' === env) {
   app.set('showStackError', true)
   app.use(logger(':method :url :status'))
